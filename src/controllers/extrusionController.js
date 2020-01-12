@@ -76,51 +76,81 @@ controller.GetFuerzaInd = (req,res) => {
 }
 
 controller.calcPotenciaInd = (esf_fluencia, n, diametro_i, diametro_f, a, b,vel) => {
-  return controller.calcExtrusionInd(esf_fluencia, n, diametro_i, diametro_f, a, b) * vel;
+  return controller.calcFuerzaInd(esf_fluencia, n, diametro_i, diametro_f, a, b) * vel;
 }
 
 controller.GetCalcInd = (req,res) => {
-  let data = { 'Fuerza_indirecta': controller.calcFuerzaInd(
-                                                            req.body.esf_fluencia, 
-                                                            req.body.n, 
-                                                            req.body.diametro_i, 
-                                                            req.body.diametro_f, 
-                                                            req.body.a, 
-                                                            req.body.b
-                                                          ), 
-                'presion_extrusion_indirecta': controller.calcExtrusionInd(
-                                                            req.body.esf_fluencia, 
-                                                            req.body.n, 
-                                                            req.body.diametro_i, 
-                                                            req.body.diametro_f, 
-                                                            req.body.a, 
-                                                            req.body.b
-                                                            ),
-                'esfuerzo_medio': controller.calcEsfuerzoMedio(
-                                                            req.body.esf_fluencia, 
-                                                            req.body.n, 
-                                                            req.body.diametro_i, 
-                                                            req.body.diametro_f
-                                                            ),
-                're': controller.calcRe(
+
+
+  let data = {
+    'area_inicial':{
+      'valor': controller.calcArea(req.body.diametro_i),
+      'unidad': req.body.u_diametro_i
+    },
+    'area_final': {
+      'valor': controller.calcArea(req.body.diametro_f),
+      'unidad': req.body.u_diametro_f
+    },
+    'Fuerza_indirecta': {
+      'valor': controller.calcFuerzaInd(
+        req.body.esf_fluencia,
+        req.body.n,
+        req.body.diametro_i,
+        req.body.diametro_f,
+        req.body.a,
+        req.body.b
+      ),
+      'unidad': 'N'
+    }
+    , 
+    'presion_extrusion_indirecta': {
+      'valor': controller.calcExtrusionInd(
+        req.body.esf_fluencia,
+        req.body.n,
+        req.body.diametro_i,
+        req.body.diametro_f,
+        req.body.a,
+        req.body.b
+      ),
+      'unidad': req.body.u_esfuerzo_fluencia
+    },
+      
+    'esfuerzo_medio': {
+      'valor': controller.calcEsfuerzoMedio(
+        req.body.esf_fluencia,
+        req.body.n,
+        req.body.diametro_i,
+        req.body.diametro_f
+      ),
+      'unidad': req.body.u_esfuerzo_fluencia
+    },
+      're': controller.calcRe(
+                              req.body.diametro_i, 
+                              req.body.diametro_f
+                              ),
+      'jhonson': controller.calcJohnson(
                                         req.body.diametro_i, 
-                                        req.body.diametro_f
-                                        ),
-                'jhonson': controller.calcJohnson(
-                                                  req.body.diametro_i, 
-                                                  req.body.diametro_f, 
-                                                  req.body.a, 
-                                                  req.body.b
-                                                ),
-                'Potencia' : controller.calcPotenciaInd(
-                                                        req.body.esf_fluencia,
-                                                        req.body.n,
-                                                        req.body.diametro_i,
-                                                        req.body.diametro_f,
-                                                        req.body.a,
-                                                        req.body.b,
-                                                        req.body.velocidad
-                                                      )
+                                        req.body.diametro_f, 
+                                        req.body.a, 
+                                        req.body.b
+                                      ),
+    'Potencia': {
+      'valor': controller.calcPotenciaInd(
+        req.body.esf_fluencia,
+        req.body.n,
+        req.body.diametro_i,
+        req.body.diametro_f,
+        req.body.a,
+        req.body.b,
+        req.body.velocidad
+      ),
+      'unidad':'W'
+    },
+    'others': {
+      'esf_fluencia': req.body.esf_fluencia,
+      'unidad_esf_fluencia': req.body.u_esfuerzo_fluencia,
+      'n':req.body.n
+    }
 }
   return res.json(data);
 }

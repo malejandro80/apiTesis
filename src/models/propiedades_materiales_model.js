@@ -57,7 +57,8 @@ model.update = (req) => {
   let data = {
                 'nombre_material': req.body.nombre_material,
                 'esfuerzo_fluencia': req.body.esfuerzo_fluencia,
-                'unidad_esfuerzo_fluencia': req.body.unidad_esfuerzo_fluencia
+                'unidad_esfuerzo_fluencia': req.body.unidad_esfuerzo_fluencia,
+                'n': req.body.n
             };
   return new Promise((resolve, reject) => {
     conexion.query(`UPDATE propiedades_materiales SET ?

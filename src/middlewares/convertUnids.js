@@ -54,9 +54,10 @@ middleware.Unids = async (req,res,next) => {
       'a': req.body.a,
       'b': req.body.b,
     }
-
-    res.json(unidades);
-   next();
+     req.body = unidades;
+     next();
+    // res.json(unidades);
+  
 
 }
 
