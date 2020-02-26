@@ -42,7 +42,7 @@ extrusionDirecta.GetCalculos = (req, res) => {
       'valor': calculosBasicos.calcArea(req.body.diametro_f),
       'unidad': req.body.u_diametro_f
     },
-    'Fuerza_Directa': {
+    'Fuerza': {
       'valor': extrusionDirecta.fuerza(
         req.body.esf_fluencia,
         req.body.n,
@@ -55,7 +55,7 @@ extrusionDirecta.GetCalculos = (req, res) => {
       'unidad': 'N'
     }
     ,
-    'presion_extrusion_directa': {
+    'presion_extrusion': {
       'valor': extrusionDirecta.esfuerzo(
         req.body.esf_fluencia,
         req.body.n,
