@@ -22,6 +22,7 @@ app.use(require("./routes/index"));
 app.use("/api", require("./routes/conf/material_properties.js"));
 app.use("/api", require("./routes/conf/unids.js"));
 app.use("/api/ex", require("./routes/extrusion/metodo_simplificado.js"));
+app.use("/api/tre", require("./routes/trefilado/trefilado"));
 
 //starting the server
 app.listen(settings.get("port"), 

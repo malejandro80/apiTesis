@@ -45,4 +45,25 @@ basics.getEsfuerzoMedio = (req, res) => {
   let data = { 'esfuerzo_medio': basics.calcEsfuerzoMedio(req.body.esf_fluencia, req.body.n, req.body.diametro_i, req.body.diametro_f) }
   return res.json(data);
 };
+
+basics.Fuerza = (esfuerzo,aera) => {
+
+  return esfuerzo * aera;
+}
+
+basics.potencia = (fuerza,velocidad) => {
+
+  return fuerza * velocidad;
+}
+
+basics.factorFormaTrefilado = (diametro_i, diametro_f,angulo) => {
+  diametro_i = diametro_i*1;
+  diametro_f = diametro_f*1;
+  angulo = angulo*1 * Math.PI / 180;
+
+  let diametroPromedio = (diametro_i + diametro_f)/2;
+  let longitudContacto = (diametro_i - diametro_f)/(2*Math.sin(angulo));
+  return 0.88 + (0.12 * (diametroPromedio / longitudContacto));
+
+}
 module.exports = basics;
