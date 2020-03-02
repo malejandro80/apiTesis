@@ -1,5 +1,4 @@
 const unidades_model = require("../models/unidades_model");
-const configuracion = require("../models/configuracion_model")
 
 const controller = {};
 

@@ -1,7 +1,8 @@
 const unidades_model = require("../models/unidades_model");
 const materiales = require("../models/propiedades_materiales_model");
 const middleware = {}
-
+const convertir = require("../controllers/convertsUnidsController")
+const configuracion = require("../models/configuracion_model")
 middleware.Unids = async (req,res,next) => {
  let unidades = [];
   
@@ -121,9 +122,18 @@ middleware.convertUnids = async (req, res, next) => {
     'a': req.body.a,
     'b': req.body.b,
   }
-
+  configuracion
   req.body = unidades;
   next();
+}
+
+middleware.prueba = async(req,res,next) => {
+  let unidades = [];
+  let conf = await configuracion.getConf();
+  // unidades.push( 
+  //   await convertir.transformar(req.body.diametro_i,'cm','m')
+  // );
+  console.log(conf[0].valor.toString());
 }
 
 middleware.convertUnid = (u_convert,u_value) => {
