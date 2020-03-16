@@ -1,8 +1,9 @@
 const unidades_model = require("../models/unidades_model");
 const materiales = require("../models/propiedades_materiales_model");
-const middleware = {}
-const convertir = require("../controllers/convertsUnidsController")
-const configuracion = require("../models/configuracion_model")
+const middleware = {};
+const convertir = require("../controllers/convertsUnidsController");
+const configuracion = require("../models/configuracion_model");
+
 middleware.Unids = async (req,res,next) => {
  let unidades = [];
   
@@ -127,13 +128,26 @@ middleware.convertUnids = async (req, res, next) => {
   next();
 }
 
-middleware.prueba = async(req,res,next) => {
-  let unidades = [];
+middleware.transformar = async(req,res,next) => {
+  const request = req.body;
+  let unidades = {};
+  let material = await materiales.get(req.body.material);
   let conf = await configuracion.getConf();
-  // unidades.push( 
-  //   await convertir.transformar(req.body.diametro_i,'cm','m')
-  // );
-  console.log(conf[0].valor.toString());
+
+  unidades['diametro_inicial'] = await convertir.transformar(request.diametro_i, request.u_diametro_i, conf[0].valor);
+
+  unidades['diametro_final'] = await convertir.transformar(request.diametro_f, request.u_diametro_f, conf[0].valor);
+
+  unidades['esf_fluencia'] = await convertir.transformar(material[0].esfuerzo_fluencia, material[0].unidad_esfuerzo_fluencia, conf[1].valor);
+
+  unidades['velocidad'] = await convertir.transformar(request.velocidad, request.u_velocidad, conf[2].valor);
+  unidades['otros'] = {
+    'n': material[0].n,
+    'angulo': request.angulo,
+    'roce': request.roce,
+  }
+  req.body = unidades;
+  next();
 }
 
 middleware.convertUnid = (u_convert,u_value) => {

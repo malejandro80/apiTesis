@@ -1,0 +1,6 @@
+host = bxc6o4spcg495zre20jc-mysql.services.clever-cloud.com
+user = uaugi2guymjwvn3e
+password = aNV37Qju4QPVFVFWdWtC
+port = 3306
+db = bxc6o4spcg495zre20jc
+type = mysql
