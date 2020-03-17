@@ -29,7 +29,6 @@ trefilado.getEsfuerzo = (req, res) => {
 
 trefilado.GetCalculos = async (req, res) => {
   let conf = await configuracion.getConf();
-  console.log(conf);
   let r = req.body;
   
   let esfuerzo = trefilado.calcEsfuerzo(r.esf_fluencia.valor, r.otros.n, r.diametro_inicial.valor, r.diametro_final.valor, r.otros.angulo, r.otros.roce);
@@ -51,7 +50,7 @@ trefilado.GetCalculos = async (req, res) => {
       'unidad': conf[3].valor
     }
     ,
-    'presion_extrusion': {
+    'presion': {
       'valor': esfuerzo,
       'unidad': conf[1].valor
     },
